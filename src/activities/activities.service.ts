@@ -10,39 +10,51 @@ export class ActivitiesService {
   constructor(
     @InjectRepository(Activity)
     private activityRepository: Repository<Activity>,
-  ){}
+  ) {}
 
-  create(createActivityDto: CreateActivityDto) {
-    return this.activityRepository.save(createActivityDto)
+  create(createActivityDto: CreateActivityDto, user: string) {
+    return this.activityRepository.save({ ...createActivityDto, owner: user });
   }
 
-  findAll() {
-    return this.activityRepository.find();
+  findAll(user: string) {
+    return this.activityRepository.findBy({ owner: user });
   }
 
-  async findOne(id: number) {
-    const activity = await this.activityRepository.findOneBy({id})
+  async findOne(id: number, user: string) {
+    const activity = await this.activityRepository.findOneBy({
+      id,
+      owner: user,
+    });
     if (!activity) {
-      throw new NotFoundException('activity not found')
+      throw new NotFoundException('activity not found');
     }
-    return activity
+    return activity;
   }
 
-  async update(id: number, updateActivityDto: UpdateActivityDto) {
-    const activity = await this.activityRepository.findOneBy({id})
+  async update(id: number, updateActivityDto: UpdateActivityDto, user: string) {
+    const activity = await this.activityRepository.findOneBy({
+      id,
+      owner: user,
+    });
     if (!activity) {
-      throw new NotFoundException('activity not found')
-    }
-
-    await this.activityRepository.update({id}, updateActivityDto)
-  }
-
-  async remove(id: number) {
-    const activity = await this.activityRepository.findOneBy({id})
-    if (!activity) {
-      throw new NotFoundException('activity not found')
+      throw new NotFoundException('activity not found');
     }
 
-    await this.activityRepository.remove(activity)
+    await this.activityRepository.update(
+      { id, owner: user },
+      updateActivityDto,
+    );
+  }
+
+  async remove(id: number, user: string) {
+    const activity = await this.activityRepository.findOneBy({
+      id,
+      owner: user,
+    });
+    if (!activity) {
+      throw new NotFoundException('activity not found');
+    }
+
+    await this.activityRepository.remove(activity);
   }
 }

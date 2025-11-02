@@ -1,5 +1,12 @@
-import { IsDateString, IsEnum, IsNotEmpty, IsNumber, IsOptional, Min } from "class-validator";
-import { ActivityIntensity } from "../entities/activity.entity";
+import {
+  IsDateString,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  Min,
+} from 'class-validator';
+import { ActivityIntensity } from '../entities/activity.entity';
 
 export class CreateActivityDto {
   @IsNotEmpty()

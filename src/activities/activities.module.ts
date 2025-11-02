@@ -6,10 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Activity } from './entities/activity.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Activity]),
-    AuthModule
-  ],
+  imports: [TypeOrmModule.forFeature([Activity]), AuthModule],
   controllers: [ActivitiesController],
   providers: [ActivitiesService],
 })

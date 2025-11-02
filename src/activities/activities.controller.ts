@@ -1,4 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  HttpCode,
+  HttpStatus,
+  Request,
+} from '@nestjs/common';
 import { ActivitiesService } from './activities.service';
 import { CreateActivityDto } from './dto/create-activity.dto';
 import { UpdateActivityDto } from './dto/update-activity.dto';
@@ -10,29 +22,37 @@ export class ActivitiesController {
   constructor(private readonly activitiesService: ActivitiesService) {}
 
   @Post()
-  create(@Body() createActivityDto: CreateActivityDto) {
-    return this.activitiesService.create(createActivityDto);
+  create(@Body() createActivityDto: CreateActivityDto, @Request() req) {
+    return this.activitiesService.create(createActivityDto, req.user.email);
   }
 
   @Get()
-  findAll() {
-    return this.activitiesService.findAll();
+  findAll(@Request() req) {
+    return this.activitiesService.findAll(req.user.email);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.activitiesService.findOne(+id);
+  findOne(@Param('id') id: string, @Request() req) {
+    return this.activitiesService.findOne(+id, req.user.email);
   }
 
   @Patch(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  update(@Param('id') id: string, @Body() updateActivityDto: UpdateActivityDto) {
-    return this.activitiesService.update(+id, updateActivityDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateActivityDto: UpdateActivityDto,
+    @Request() req,
+  ) {
+    return this.activitiesService.update(
+      +id,
+      updateActivityDto,
+      req.user.email,
+    );
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id') id: string) {
-    return this.activitiesService.remove(+id);
+  remove(@Param('id') id: string, @Request() req) {
+    return this.activitiesService.remove(+id, req.user.email);
   }
 }

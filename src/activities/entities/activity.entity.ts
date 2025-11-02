@@ -1,9 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum ActivityIntensity {
   LOW = 'Baja',
   MEDIUM = 'Media',
-  HIGH = 'Alta'
+  HIGH = 'Alta',
 }
 
 @Entity()
@@ -21,10 +21,13 @@ export class Activity {
   date: Date;
 
   @Column({
-    enum: ActivityIntensity
+    enum: ActivityIntensity,
   })
   intensity: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   notes: string;
+
+  @Column({ select: false })
+  owner: string;
 }
