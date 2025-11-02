@@ -43,6 +43,6 @@ export class ActivitiesService {
       throw new NotFoundException('activity not found')
     }
 
-    return this.activityRepository.remove(activity)
+    await this.activityRepository.remove(activity)
   }
 }
