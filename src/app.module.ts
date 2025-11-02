@@ -6,6 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { User } from './users/entities/user.entity';
 import { AuthModule } from './auth/auth.module';
+import { ActivitiesModule } from './activities/activities.module';
+import { Activity } from './activities/entities/activity.entity';
 
 // psql 'postgresql://neondb_owner:npg_DqKG59cFfEAi@ep-delicate-glade-adj2c44u-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require'
 @Module({
@@ -21,13 +23,14 @@ import { AuthModule } from './auth/auth.module';
         username: configService.get('DB_USER'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DBNAME'),
-        entities: [User],
+        entities: [User, Activity],
         synchronize: true,
         ssl: true,
       }),
     }),
     UsersModule,
     AuthModule,
+    ActivitiesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
