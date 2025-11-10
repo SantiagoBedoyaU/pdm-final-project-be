@@ -14,6 +14,10 @@ Permite registrar el tipo de actividad, duración, fecha, intensidad y notas opc
 
 ***
 
+### Modelo Entidad-Relacion
+
+![image info](./docs/image.png)
+
 ### Endpoints
 
 #### Autenticación
